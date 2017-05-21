@@ -14,8 +14,8 @@ class Room(models.Model):
     single_beds_count = models.IntegerField("Single Beds Count",default = 0)
 
     BATHROOM_TYPE = (
-        ('BH', 'Bathtub'),
-        ('SH', 'Shower'),
+        (0, 'Bathtub'),
+        (1, 'Shower'),
     )
 
     bathroom_type = models.IntegerField("Bathroom Type", choices = BATHROOM_TYPE, default = 'Shower')
@@ -23,4 +23,6 @@ class Room(models.Model):
     is_suite = models.BooleanField("Suite", default = False)
     is_seaview = models.BooleanField("Sea View", default = False)
     is_place_for_crib = models.BooleanField("Has Place For Crib", default = True)
+    is_clean = models.BooleanField("Clean", default=True)
+    clean_comment = models.CharField("Clean_comment",max_length=1000,default="")
 

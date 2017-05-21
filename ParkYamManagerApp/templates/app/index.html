@@ -1,0 +1,9 @@
+{% if rooms %}
+    <ul>
+    {% for room in rooms %}
+        <li><a href="{% url 'app:detail' room.number %}">{{ room.number }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No Rooms are available.</p>
+{% endif %}
