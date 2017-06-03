@@ -5,18 +5,27 @@ from .models import Room
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import permission_required
+
 # Create your views here.
 
 def home(request):
+    return render(request,"app/home.html")
+
+@permission_required('rooms.can_edit')
+def rooms(request):
     rooms = Room.objects.all()
     context = {'rooms': rooms}
-    return render(request, 'app/index.html', context)
+    return render(request, 'app/rooms.html', context)
     # return HttpResponse("Hello, world. You're at the polls index.")
 
+@permission_required('rooms.can_edit')
 def detail(request, room_number):
     room = get_object_or_404(Room, pk=room_number)
     return render(request, 'app/detail.html', {'room': room, 'comment_value':room.clean_comment})
 
+@permission_required('rooms.can_edit')
 def set_clean(request, room_number):
     room = Room.objects.get(number=room_number)
     try:
