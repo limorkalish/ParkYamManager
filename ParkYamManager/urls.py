@@ -22,3 +22,5 @@ urlpatterns = [
     url(r'^accounts/', include('django.contrib.auth.urls')),
 #    url(r'^$', redirect()),
 ]
+
+admin.site.site_header = 'ParkYamManager administration'
