@@ -1,3 +1,6 @@
+{% extends "app/base_generic.html" %}
+
+{% block content %}
 <h1>Room {{ room.number }} {% if comment_value %}({{ comment_value }}){% endif %}</h1>
 {% if room.is_clean %}<h2><font color="green">The room is clean</font></h2>
 {% else %} <h2> <font color="red">The room is not clean</font></h2>
@@ -15,3 +18,5 @@
     Comment: <input type="text" name="clean_comment" value="{{ comment_value }}">
 <input type="submit" value="Send" />
 </form>
+
+{% endblock %}

@@ -1,3 +1,6 @@
+{% extends "app/base_generic.html" %}
+
+{% block content %}
 {% if rooms %}
     <ul>
     {% for room in rooms %}
@@ -7,3 +10,4 @@
 {% else %}
     <p>No Rooms are available.</p>
 {% endif %}
+{% endblock %}

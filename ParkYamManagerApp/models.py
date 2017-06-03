@@ -25,4 +25,3 @@ class Room(models.Model):
     is_place_for_crib = models.BooleanField("Has Place For Crib", default = True)
     is_clean = models.BooleanField("Clean", default=True)
     clean_comment = models.CharField("Clean_comment",max_length=1000,default="")
-
