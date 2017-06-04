@@ -19,8 +19,9 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^app/', include('ParkYamManagerApp.urls')),
+    url(r'^$', include('ParkYamManagerApp.urls')),
     url(r'^accounts/', include('django.contrib.auth.urls')),
-#    url(r'^$', redirect()),
 ]
 
 admin.site.site_header = 'ParkYamManager administration'
+
