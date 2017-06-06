@@ -20,6 +20,16 @@ def rooms(request):
     return render(request, 'app/rooms.html', context)
     # return HttpResponse("Hello, world. You're at the polls index.")
 
+def reception(request):
+    rooms = Room.objects.all()
+    rooms_by_floor = [[] for i in xrange(6)]
+    for room in rooms:
+        rooms_by_floor[room.floor-1].append(room)
+    for rooms in rooms_by_floor:
+        rooms.sort(key=lambda x:x.number)
+    context = {'rooms_by_floor': rooms_by_floor}
+    return render(request, 'app/reception.html', context)
+
 @permission_required('ParkYamManagerApp.change_room')
 def detail(request, room_number):
     room = get_object_or_404(Room, pk=room_number)

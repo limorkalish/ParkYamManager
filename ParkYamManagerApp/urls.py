@@ -19,6 +19,7 @@ app_name = 'app'
 urlpatterns = [
     url(r'^$', views.home, name='home'),
     url(r'^rooms/', views.rooms, name='rooms'),
+    url(r'^reception/', views.reception),
     url(r'^(?P<room_number>[0-9]+)/$', views.detail, name='detail'),
     url(r'^(?P<room_number>[0-9]+)/set_clean/$', views.set_clean, name='set_clean'),
 ]
