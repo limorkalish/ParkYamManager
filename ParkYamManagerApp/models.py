@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.conf import settings
 
 # Create your models here.
 
@@ -25,3 +26,13 @@ class Room(models.Model):
     is_place_for_crib = models.BooleanField("Has Place For Crib", default = True)
     is_clean = models.BooleanField("Clean", default=True)
     clean_comment = models.CharField("Clean_comment",max_length=1000,default="")
+
+class Message(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    message = models.TextField("Message", default="")
+    reply = models.TextField("Reply", default="", blank=True)
+    replier_name = models.CharField("Replier", max_length = 255, default="", blank=True)
+    message_time = models.DateTimeField("Message Time", auto_now=True)
+
+    def __str__(self):
+        return '%s   %s   %s' % (self.user, self.message_time.strftime('%d-%m-%Y %H:%M:%S'), self.message[:20])
