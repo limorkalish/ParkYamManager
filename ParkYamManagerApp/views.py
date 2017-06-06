@@ -2,6 +2,8 @@
 from __future__ import unicode_literals
 from django.http import HttpResponse
 from .models import Room
+from .models import Message
+from .models import SendMessageForm
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -46,3 +48,28 @@ def set_clean(request, room_number):
     else:
         return HttpResponse("Error 2")
     return HttpResponseRedirect(reverse('app:home'))
+
+@permission_required('ParkYamManagerApp.can_send_message')
+def send_message(request):
+    # If this is a POST request then process the Form data
+    if request.method == 'POST':
+
+        message = Message()
+        message.user = request.user
+
+        # Create a form instance and populate it with data from the request (binding):
+        form = SendMessageForm(request.POST)
+
+        # Check if the form is valid:
+        if form.is_valid():
+            message.Message = form.cleaned_data['message']
+            message.save()
+
+            # redirect to a new URL:
+            return render(request, 'app/message_sent.html')
+
+    # If this is a GET (or any other method) create the default form.
+    else:
+        form = SendMessageForm()
+
+    return render(request, 'app/send_message.html', {'form': form})

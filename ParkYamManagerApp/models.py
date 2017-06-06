@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.conf import settings
+from django.forms import ModelForm
+from django.core.exceptions import ValidationError
 
 # Create your models here.
 
@@ -34,5 +36,23 @@ class Message(models.Model):
     replier_name = models.CharField("Replier", max_length = 255, default="", blank=True)
     message_time = models.DateTimeField("Message Time", auto_now=True)
 
+    class Meta:
+        permissions = (("can_send_message", "Can send message"), ("can_reply_message", "Can reply message"))
+
     def __str__(self):
         return '%s   %s   %s' % (self.user, self.message_time.strftime('%d-%m-%Y %H:%M:%S'), self.message[:20])
+
+class SendMessageForm(ModelForm):
+    def clean_message(self):
+        data = self.cleaned_data['message']
+
+        #Check message is not empty
+        if not data:
+            raise ValidationError('Message cannot be empty')
+
+        return data
+
+    class Meta:
+        model = Message
+        fields = ['message']
+        #help_texts = {'message': ('Enter a message'), }
