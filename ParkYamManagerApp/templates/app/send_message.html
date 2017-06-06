@@ -1,0 +1,13 @@
+{% extends "app/base_generic.html" %}
+{% block content %}
+
+    <h1>Send message to the management</h1>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        <table>
+        {{ form }}
+        </table>
+        <input type="submit" value="Submit" />
+    </form>
+{% endblock %}
