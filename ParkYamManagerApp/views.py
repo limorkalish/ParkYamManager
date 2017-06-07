@@ -9,6 +9,8 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
+from django.views import generic
+from django.utils.decorators import method_decorator
 
 # Create your views here.
 
@@ -77,7 +79,7 @@ def send_message(request):
 
         # Check if the form is valid:
         if form.is_valid():
-            message.Message = form.cleaned_data['message']
+            message.message = form.cleaned_data['message']
             message.save()
 
             # redirect to a new URL:
@@ -88,3 +90,14 @@ def send_message(request):
         form = SendMessageForm()
 
     return render(request, 'app/send_message.html', {'form': form})
+
+class MessageListView(generic.ListView):
+    model = Message
+    template_name = 'app/user_messages.html'
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(MessageListView, self).dispatch(*args, **kwargs)
+
+    def get_queryset(self):
+        return Message.objects.filter(user=self.request.user)
