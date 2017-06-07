@@ -100,4 +100,4 @@ class MessageListView(generic.ListView):
         return super(MessageListView, self).dispatch(*args, **kwargs)
 
     def get_queryset(self):
-        return Message.objects.filter(user=self.request.user)
+        return Message.objects.filter(user=self.request.user).order_by('-message_time')

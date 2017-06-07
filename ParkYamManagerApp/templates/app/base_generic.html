@@ -33,7 +33,7 @@
             {% endif %}
 
             {% if perms.ParkYamManagerApp.can_send_message %}
-                <li><a href="{% url 'app:messages' %}">Sent Messages</a></li>
+                <li><a href="{% url 'app:messages' %}">Messages List</a></li>
                 <li><a href="{% url 'app:send_message' %}">Send Message</a></li>
             {% endif %}
 

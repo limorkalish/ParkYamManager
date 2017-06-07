@@ -9,20 +9,18 @@
     }
     th, td {
         padding: 10px;
-        text-align: center;
+        text-align: left;
     }
     </style>
     <table border="1">
     <tr><th>Sent Time</th><th>Message</th><th>Answer</th><th>Answered by</th></tr>
       {% for message in message_list %}
-      <li>
           <tr>
               <td>{{ message.message_time }}</a></td>
               <td>{{ message.message }}</a></td>
               <td>{{ message.reply }}</a></td>
               <td>{{ message.replier_name }}</a></td>
           </tr>
-      </li>
       {% endfor %}
 
     </table>
