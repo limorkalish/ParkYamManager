@@ -29,7 +29,10 @@
             <li><a href="{% url 'app:home' %}">Home</a></li>
 
             {% if perms.ParkYamManagerApp.change_room %}
-                <li><a href="{% url 'app:rooms' %}">Rooms</a></li>
+                <li><a href="{% url 'app:rooms_cleaning' %}">Rooms Cleaning</a></li>
+            {% endif %}
+            {% if perms.ParkYamManagerApp.maintain_room %}
+                <li><a href="{% url 'app:rooms_maintenance' %}">Rooms Maintenance</a></li>
             {% endif %}
 
             {% if perms.ParkYamManagerApp.can_send_message %}

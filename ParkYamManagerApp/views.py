@@ -18,7 +18,7 @@ def home(request):
     return render(request,"app/home.html")
 
 @permission_required('ParkYamManagerApp.change_room')
-def rooms(request):
+def rooms_cleaning(request):
     rooms = Room.objects.all()
     rooms_by_floor = [[] for i in xrange(6)]
     for room in rooms:
@@ -26,8 +26,19 @@ def rooms(request):
     for rooms in rooms_by_floor:
         rooms.sort(key=lambda x: x.number)
     context = {'rooms_by_floor': rooms_by_floor}
-    return render(request, 'app/rooms.html', context)
-    # return HttpResponse("Hello, world. You're at the polls index.")
+    return render(request, 'app/rooms_cleaning.html', context)
+
+@permission_required('ParkYamManagerApp.maintain_room')
+def rooms_maintenance(request):
+    rooms = Room.objects.all()
+    rooms_by_floor = [[] for i in xrange(6)]
+    for room in rooms:
+        rooms_by_floor[room.floor - 1].append(room)
+    for rooms in rooms_by_floor:
+        rooms.sort(key=lambda x: x.number)
+    context = {'rooms_by_floor': rooms_by_floor}
+    return render(request, 'app/rooms_maintenance.html', context)
+
 
 def reception(request):
     rooms = Room.objects.all()
@@ -43,6 +54,11 @@ def reception(request):
 def detail(request, room_number):
     room = get_object_or_404(Room, pk=room_number)
     return render(request, 'app/detail.html', {'room': room, 'comment_value':room.clean_comment})
+
+@permission_required('ParkYamManagerApp.maintain_room')
+def room_maintenance_details(request, room_number):
+    room = get_object_or_404(Room, pk=room_number)
+    return render(request, 'app/room_maintenance_details.html', {'room': room, 'comment_value':room.maintenance_comment})
 
 @permission_required('ParkYamManagerApp.change_room')
 def set_clean(request, room_number):
@@ -64,7 +80,31 @@ def set_clean(request, room_number):
         room.save()
     else:
         return HttpResponse("Error 2")
-    return HttpResponseRedirect(reverse('app:rooms'))
+    return HttpResponseRedirect(reverse('app:rooms_cleaning'))
+
+@permission_required('ParkYamManagerApp.maintain_room')
+def set_room_maintenance_status(request, room_number):
+    room = Room.objects.get(number=room_number)
+    try:
+        selected_choice = request.POST['choice']
+        maintenance_comment = request.POST['maintenance_comment']
+    except KeyError:
+        return render(request, 'app/room_maintenance_details.html', {
+            'room': room,
+            'error_message': "You didn't select a choice.",
+        })
+    room.maintenance_comment = maintenance_comment
+    if selected_choice == "need maintenance":
+        room.needs_maintenance = True
+        room.save()
+    elif selected_choice == "does not need maintenance":
+        room.needs_maintenance = False
+        room.save()
+    else:
+        return HttpResponse("Error 2")
+    return HttpResponseRedirect(reverse('app:rooms_maintenance'))
+
+
 
 @permission_required('ParkYamManagerApp.can_send_message')
 def send_message(request):
