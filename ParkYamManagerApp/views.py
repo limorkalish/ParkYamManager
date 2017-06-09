@@ -17,26 +17,45 @@ from django.utils.decorators import method_decorator
 def home(request):
     return render(request,"app/home.html")
 
+def get_rooms_floors():
+    rooms = Room.objects.all()
+    rooms_floors = set(map(lambda room: room.floor, rooms))
+    return rooms_floors
+
+def get_rooms_by_floor(request):
+    rooms = Room.objects.all()
+
+    rooms_floors = get_rooms_floors()
+
+    floor_filter = 0
+    try:
+        floor_filter = int(request.GET.get('floor', False))
+    except ValueError:
+        pass
+
+    rooms_by_floor = [[] for i in rooms_floors]
+    for room in rooms:
+        if floor_filter:
+            if room.floor != floor_filter:
+                continue
+            else:
+                rooms_by_floor[0].append(room)
+        else:
+            rooms_by_floor[room.floor - 1].append(room)
+    return rooms_by_floor
+
 @permission_required('ParkYamManagerApp.change_room')
 def rooms_cleaning(request):
-    rooms = Room.objects.all()
-    rooms_by_floor = [[] for i in xrange(6)]
-    for room in rooms:
-        rooms_by_floor[room.floor - 1].append(room)
-    for rooms in rooms_by_floor:
-        rooms.sort(key=lambda x: x.number)
-    context = {'rooms_by_floor': rooms_by_floor}
+    rooms_by_floor = get_rooms_by_floor(request)
+    number_of_floors = len(get_rooms_floors())
+    context = {'rooms_by_floor': rooms_by_floor, 'number_of_floors': xrange(1, number_of_floors+1)}
     return render(request, 'app/rooms_cleaning.html', context)
 
 @permission_required('ParkYamManagerApp.maintain_room')
 def rooms_maintenance(request):
-    rooms = Room.objects.all()
-    rooms_by_floor = [[] for i in xrange(6)]
-    for room in rooms:
-        rooms_by_floor[room.floor - 1].append(room)
-    for rooms in rooms_by_floor:
-        rooms.sort(key=lambda x: x.number)
-    context = {'rooms_by_floor': rooms_by_floor}
+    rooms_by_floor = get_rooms_by_floor(request)
+    number_of_floors = len(get_rooms_floors())
+    context = {'rooms_by_floor': rooms_by_floor, 'number_of_floors': xrange(1, number_of_floors+1)}
     return render(request, 'app/rooms_maintenance.html', context)
 
 
