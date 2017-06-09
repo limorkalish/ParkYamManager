@@ -64,7 +64,7 @@ def set_clean(request, room_number):
         room.save()
     else:
         return HttpResponse("Error 2")
-    return HttpResponseRedirect(reverse('app:home'))
+    return HttpResponseRedirect(reverse('app:rooms'))
 
 @permission_required('ParkYamManagerApp.can_send_message')
 def send_message(request):
