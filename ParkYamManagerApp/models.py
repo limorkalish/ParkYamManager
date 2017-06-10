@@ -32,6 +32,11 @@ class Room(models.Model):
     needs_maintenance = models.BooleanField("NeedsMaintenance", default=False)
     maintenance_comment = models.CharField("MaintenanceComment", max_length=1000, default="")
 
+    class Meta:
+        permissions = (
+            ("maintain_room", "Can maintain room"),
+        )
+
 class Message(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     message = models.TextField("Message", default="")
