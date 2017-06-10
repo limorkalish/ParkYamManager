@@ -21,7 +21,8 @@
 	{% for floor_rooms in rooms_by_floor %}
 	<tr height="70">
     {% for room in floor_rooms %}
-		{% if room.is_clean %}<td bgcolor="#00ff00" width="70">
+		{% if room.is_room_being_cleaned %}<td bgcolor="#ffff33" width="70">
+		{% elif room.is_clean %}<td bgcolor="#00ff00" width="70">
 		{% else %}<td bgcolor="#ff5050" width="70">
 		{% endif %}
         <div align="center"><h3><a href="{% url 'app:detail' room.number %}">{{ room.number }}</a></h3></div>

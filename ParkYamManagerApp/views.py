@@ -93,9 +93,15 @@ def set_clean(request, room_number):
     room.clean_comment = clean_comment
     if selected_choice == "clean":
         room.is_clean = True
+        room.is_room_being_cleaned = False
         room.save()
     elif selected_choice == "not clean":
         room.is_clean = False
+        room.is_room_being_cleaned = False
+        room.save()
+    elif selected_choice== "in progress":
+        room.is_clean = False
+        room.is_room_being_cleaned = True
         room.save()
     else:
         return HttpResponse("Error 2")
