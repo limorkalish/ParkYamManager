@@ -22,6 +22,8 @@
       <div class="col-sm-2">
       {% block sidebar %}
       <ul class="sidebar-nav">
+          <li><img src="{% static 'images/logo.png' %}" alt="Logo" width="200" border="0"/></li>
+
           {% if user.is_authenticated %}
             <li><b>Hello {{ user.get_username }}!</b></li>
             <br><br>
@@ -29,10 +31,14 @@
             <li><a href="{% url 'app:home' %}">Home</a></li>
 
             {% if perms.ParkYamManagerApp.change_room %}
-                <li><a href="{% url 'app:rooms' %}">Rooms</a></li>
+                <li><a href="{% url 'app:rooms_cleaning' %}">Rooms Cleaning</a></li>
+            {% endif %}
+            {% if perms.ParkYamManagerApp.maintain_room %}
+                <li><a href="{% url 'app:rooms_maintenance' %}">Rooms Maintenance</a></li>
             {% endif %}
 
             {% if perms.ParkYamManagerApp.can_send_message %}
+                <li><a href="{% url 'app:messages' %}">Messages List</a></li>
                 <li><a href="{% url 'app:send_message' %}">Send Message</a></li>
             {% endif %}
 

@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'ParkYamManagerApp.apps.ParkyammanagerappConfig'
+    'ParkYamManagerApp.apps.ParkyammanagerappConfig',
+    'shifts'
 ]
 
 MIDDLEWARE = [

@@ -28,6 +28,15 @@ class Room(models.Model):
     is_place_for_crib = models.BooleanField("Has Place For Crib", default = True)
     is_clean = models.BooleanField("Clean", default=True)
     clean_comment = models.CharField("Clean_comment",max_length=1000,default="")
+    is_room_being_cleaned = models.BooleanField("Is Room Being Cleaned", default=False)
+
+    needs_maintenance = models.BooleanField("NeedsMaintenance", default=False)
+    maintenance_comment = models.CharField("MaintenanceComment", max_length=1000, default="")
+
+    class Meta:
+        permissions = (
+            ("maintain_room", "Can maintain room"),
+        )
 
 class Message(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)

@@ -1,0 +1,15 @@
+{% extends "app/base_generic.html" %}
+{% block content %}
+<h1>Park Yam Manager Home</h1>
+<p>Welcome to <em>Park Yam Manager</em></p>
+
+
+<br />
+    <form action="" method="post">
+        {% csrf_token %}
+        <table>
+        {{ form }}
+        </table>
+        <input type="submit" value="Submit" />
+    </form>
+{% endblock %}

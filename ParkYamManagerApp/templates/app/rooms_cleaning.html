@@ -1,0 +1,38 @@
+{% extends "app/base_generic.html" %}
+
+{% block content %}
+<div align="center">
+<h1>Rooms Cleaning</h1>
+<table border="1">
+	<tr height="70">
+		<td bgcolor="#DCDCDC" width="70">
+			<div align="center"><h3><a href="?floor=0">All</a></h3></div>
+		</td>
+		{% for floor_number in number_of_floors %}
+		<td bgcolor="#DCDCDC" width="70">
+			<div align="center"><h3><a href="?floor={{ floor_number }}">{{ floor_number }}</a></h3></div>
+		</td>
+		{% endfor %}
+	</tr>
+</table>
+<br />
+	{% if rooms_by_floor %}
+	<table border="1">
+	{% for floor_rooms in rooms_by_floor %}
+	<tr height="70">
+    {% for room in floor_rooms %}
+		{% if room.is_room_being_cleaned %}<td bgcolor="#ffff33" width="70">
+		{% elif room.is_clean %}<td bgcolor="#00ff00" width="70">
+		{% else %}<td bgcolor="#ff5050" width="70">
+		{% endif %}
+        <div align="center"><h3><a href="{% url 'app:detail' room.number %}">{{ room.number }}</a></h3></div>
+		</td>
+    {% endfor %}
+	</tr>
+	{% endfor %}
+	</table>
+{% else %}
+    <p>No Rooms are available.</p>
+{% endif %}
+</div>
+{% endblock %}
