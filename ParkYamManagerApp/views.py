@@ -79,6 +79,11 @@ def room_maintenance_details(request, room_number):
     room = get_object_or_404(Room, pk=room_number)
     return render(request, 'app/room_maintenance_details.html', {'room': room, 'comment_value':room.maintenance_comment})
 
+def room_reception_details(request, room_number):
+    room = get_object_or_404(Room, pk=room_number)
+    return render(request, 'app/room_reception_details.html', {'room': room})
+
+
 @permission_required('ParkYamManagerApp.change_room')
 def set_clean(request, room_number):
     room = Room.objects.get(number=room_number)

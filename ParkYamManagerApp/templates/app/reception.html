@@ -9,14 +9,23 @@
 	<div align="center">
 	<table border="1">
 	{% for floor_rooms in rooms_by_floor %}
-	<tr>
+	<tr height="70">
     {% for room in floor_rooms %}
-		{% if room.is_clean %}<td bgcolor="#00ff00">
-		{% else %}<td bgcolor="#ff5050">
+		{% if not room.needs_maintenance and room.is_clean %}<td bgcolor="#80ff80" width="70">
+		{% else %}<td bgcolor="#ff8080" width="70">
 		{% endif %}
 		<div align="center">
-        <h4><b><a href="{% url 'app:detail' room.number %}">Room {{ room.number }}</a></b></h4>
-		{{ room.clean_comment }}
+        <h4><b><a href="{% url 'app:room_reception_details' room.number %}"> {{ room.number }}</a></b></h4>
+		{% if not room.is_clean %} <i class="glyphicon glyphicon-tree-conifer" style="color:red;" title="{{ room.clean_comment }}"></i>
+		{% else %} <i class="glyphicon glyphicon-tree-conifer" style="color:green;" title="{{ room.clean_comment }}"></i>
+		{% endif %}
+		
+		{% if room.needs_maintenance %} <i class="glyphicon glyphicon-wrench" style="color:red;" title="{{ room.maintenance_comment }}"></i>
+		{% else %} <i class="glyphicon glyphicon-wrench" style="color:green;" title="{{ room.maintenance_comment }}"></i>
+		{% endif %}
+		
+		{% if room.double_beds_count %} <i class="glyphicon glyphicon-bed" title="{{ room.double_beds_count }}"></i> {% endif %}
+		
 		</div>
 		</td>
     {% endfor %}

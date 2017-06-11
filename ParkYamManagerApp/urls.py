@@ -31,6 +31,6 @@ urlpatterns = [
     url(r'^sendmessage/$', views.send_message, name='send_message'),
     url(r'^messages/$', MessageListView.as_view(), name='messages'),
 
-    url(r'^reception/', views.reception),
-
+    url(r'^reception/$', views.reception),
+	url(r'^reception/(?P<room_number>[0-9]+)/$', views.room_reception_details, name='room_reception_details'),
 ]
