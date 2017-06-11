@@ -1,0 +1,31 @@
+{% extends "app/base_generic.html" %}
+
+{% block content %}
+<div align="center">
+<h1> List of rooms </h1>
+</div>
+{% if rooms_by_floor %}
+    <ul>
+	<div align="center">
+	<table border="1">
+	{% for floor_rooms in rooms_by_floor %}
+	<tr>
+    {% for room in floor_rooms %}
+		{% if room.is_clean %}<td bgcolor="#00ff00">
+		{% else %}<td bgcolor="#ff5050">
+		{% endif %}
+		<div align="center">
+        <h4><b><a href="{% url 'app:detail' room.number %}">Room {{ room.number }}</a></b></h4>
+		{{ room.clean_comment }}
+		</div>
+		</td>
+    {% endfor %}
+	</tr>
+	{% endfor %}
+	</table>
+	</div>
+    </ul>
+{% else %}
+    <p>No Rooms are available.</p>
+{% endif %}
+{% endblock %}
