@@ -18,5 +18,6 @@ import views
 
 app_name = 'shifts'
 urlpatterns = [
-    url(r'^$', views.home, name='hello'),
+    url(r'^$', views.home, name='shifts'),
+    url(r'^schedule/$', views.get_schedule, name='schedule'),
 ]
