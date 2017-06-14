@@ -44,6 +44,11 @@ def get_rooms_by_floor(request):
             rooms_by_floor[room.floor - 1].append(room)
     return rooms_by_floor
 
+def rooms_summary(request):
+    rooms = Room.objects.all()
+    context = {'rooms': rooms}
+    return render(request, 'app/rooms_summary.html', context)
+
 @permission_required('ParkYamManagerApp.change_room')
 def rooms_cleaning(request):
     rooms_by_floor = get_rooms_by_floor(request)

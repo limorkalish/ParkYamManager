@@ -5,23 +5,29 @@ from django.db import models
 from django.forms import ModelForm
 
 # Create your models here.
-class Hello(models.Model):
 
-    days = [
-        (0,'Sunday'),
-        (1,'Monday'),
-        (2,'Tuesday'),
-    ]
+times = [
+    (0, 'Morning'),
+    (1, 'Afternoon'),
+    (2, 'Night'),
+    (3, 'Off'),
+    (4, 'General')
+]
 
-    times = [
-        (0,'Morning'),
-        (1,'Afternoon'),
-        (2,'Night'),
-        (3,'Off'),
-        (4,'General')
-    ]
+days = [
+    (0, 'Sunday'),
+    (1, 'Monday'),
+    (2, 'Tuesday'),
+    (3, 'Wednesday'),
+    (4, 'Thursday'),
+    (5, 'Friday'),
+    (6, 'Saturday')
+]
 
-    id = models.IntegerField("Shift ID", primary_key=True)
+class Shift(models.Model):
+
+    id = models.IntegerField("id", primary_key=True)
+    worker_name = models.CharField("Name", max_length=200, default="empty")
     days_type = models.IntegerField("Working day", choices=days, default='Sunday')
     times_type = models.IntegerField("Shift", choices=times, default='Morning')
 
@@ -45,5 +51,5 @@ class ShiftForm(ModelForm):
         return data
 
     class Meta:
-        model = Hello
+        model = Shift
         fields = ['days_type','times_type','comment']
