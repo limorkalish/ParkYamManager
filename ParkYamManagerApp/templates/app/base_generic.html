@@ -28,25 +28,25 @@
             <li><b>Hello {{ user.get_username }}!</b></li>
             <br><br>
 
-            <li><a href="{% url 'app:home' %}">Home</a></li>
+            <li><img src="{% static 'images/home-icon.jpg' %}" width="25"><a href="{% url 'app:home' %}">Home</a></li>
 
             {% if perms.ParkYamManagerApp.change_room %}
-                <li><a href="{% url 'app:rooms_cleaning' %}">Rooms Cleaning</a></li>
+                <li><img src="{% static 'images/broom-icon.jpg' %}" width="25"><a href="{% url 'app:rooms_cleaning' %}">Rooms Cleaning</a></li>
             {% endif %}
             {% if perms.ParkYamManagerApp.maintain_room %}
-                <li><a href="{% url 'app:rooms_maintenance' %}">Rooms Maintenance</a></li>
+                <li><img src="{% static 'images/hammer-icon.png' %}" width="25"><a href="{% url 'app:rooms_maintenance' %}">Rooms Maintenance</a></li>
             {% endif %}
-                <li><a href="{% url 'app:rooms_summary' %}">Rooms Summary</a></li>
+                <li><img src="{% static 'images/summary-icon.jpg' %}" width="25"><a href="{% url 'app:rooms_summary' %}">Rooms Summary</a></li>
             {% if perms.ParkYamManagerApp.can_send_message %}
-                <li><a href="{% url 'app:messages' %}">Messages List</a></li>
-                <li><a href="{% url 'app:send_message' %}">Send Message</a></li>
+                <li><img src="{% static 'images/messages-icon.jpg' %}" width="25"><a href="{% url 'app:messages' %}">Messages List</a></li>
+                <li><img src="{% static 'images/sent-icon.jpg' %}" width="25"><a href="{% url 'app:send_message' %}">Send Message</a></li>
             {% endif %}
 
 
 
-            <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
+            <li><img src="{% static 'images/logout-icon.jpg' %}" width="25"><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
           {% else %}
-             <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
+             <li><img src="{% static 'images/login-icon.jpg' %}" width="25"><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
            {% endif %}
       </ul>
      {% endblock %}
