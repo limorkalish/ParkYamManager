@@ -11,7 +11,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
 from django.views import generic
 from django.utils.decorators import method_decorator
-
+from .models import Shift
+from .models import ShiftForm
 # Create your views here.
 
 def home(request):
@@ -171,3 +172,84 @@ class MessageListView(generic.ListView):
 
     def get_queryset(self):
         return Message.objects.filter(user=self.request.user).order_by('-message_time')
+
+
+def shift(request):
+    # hello = Hello()
+    # hello.comment = "dekel :)"
+    # hello.days_type = 1
+    # hello.times_type = 3
+
+    if request.method == 'POST':
+        hello = Shift()
+        form = ShiftForm(request.POST)
+        if form.is_valid():
+            #hello.days_type = form.cleaned_data['days_type']
+            hello.worker_name= form.cleaned_data['worker_name']
+            hello.sunday = form.cleaned_data['sunday']
+            hello.monday = form.cleaned_data['monday']
+            hello.tuesday = form.cleaned_data['tuesday']
+            hello.wednesday = form.cleaned_data['wednesday']
+            hello.thursday = form.cleaned_data['thursday']
+            hello.friday = form.cleaned_data['friday']
+            hello.saturday = form.cleaned_data['saturday']
+            hello.comment = form.cleaned_data['comment']
+            hello.save()
+            return render(request, 'app/shift.html')
+    else:
+        pass
+        form = ShiftForm()
+    return render(request,"app/shift.html", {'form': form})
+
+
+def get_schedule(request):
+    shifts = Shift.objects.all()
+
+    times = [
+        'Morning',
+        'Afternoon',
+        'Night',
+        'OFF_Morning',
+        'OFF_Afternoon',
+        'OFF_Night',
+        'OFF_Morning_Afternoon',
+        'OFF_AftNoon_Night',
+        'OFF_Morning_Night',
+        'OFF_ALL_DAY',
+    ]
+
+    shift_org = {}
+    shift_org[0] =[0,4,6,3]
+    shift_org[1] = [1,4,5,3]
+    shift_org[2] = [2,6, 5, 3]
+    #
+    # coms = {}
+    # shifts = Shift.objects.all()
+    # for obj in shifts:
+    #     coms[obj.worker_name] = obj.comment
+
+    results = {}
+    for shift in range(3):
+        results[shift] = {}
+        results[shift][0] = set()
+        results[shift][0].add(times[shift])
+        for day in range(7):
+            results[shift][day+1] = set()
+        for item in shifts:
+            if item.sunday in shift_org[shift]:
+                results[shift][1].add(item.worker_name)
+            if item.monday in shift_org[shift]:
+                results[shift][2].add(item.worker_name)
+            if item.tuesday in shift_org[shift]:
+                results[shift][3].add(item.worker_name)
+            if item.wednesday in shift_org[shift]:
+                results[shift][4].add(item.worker_name)
+            if item.thursday in shift_org[shift]:
+                results[shift][5].add(item.worker_name)
+            if item.friday in shift_org[shift]:
+                results[shift][6].add(item.worker_name)
+            if item.saturday in shift_org[shift]:
+                results[shift][7].add(item.worker_name)
+
+    return render(request, "app/schedule.html", {'results': results})
+

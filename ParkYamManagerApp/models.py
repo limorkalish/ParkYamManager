@@ -65,3 +65,60 @@ class SendMessageForm(ModelForm):
         model = Message
         fields = ['message']
         #help_texts = {'message': ('Enter a message'), }
+
+times = [
+    (0, 'OFF_Morning'),
+    (1, 'OFF_Afternoon'),
+    (2, 'OFF_Night'),
+    (3, 'Off_ALL_DAY'),
+    (4, 'Off_Morning_Afternoon'),
+    (5, 'Off_AftNoon_Night'),
+    (6, 'Off_Morning_Night'),
+    (7, 'General'),
+]
+
+days = [
+    (0, 'Sunday'),
+    (1, 'Monday'),
+    (2, 'Tuesday'),
+    (3, 'Wednesday'),
+    (4, 'Thursday'),
+    (5, 'Friday'),
+    (6, 'Saturday')
+]
+
+
+class Shift(models.Model):
+
+    id = models.IntegerField("id", primary_key=True)
+    worker_name = models.CharField("Name", max_length=255, default="Type your name in here")
+    sunday = models.IntegerField("Sunday", choices=times, default='7')
+    monday = models.IntegerField("Monday", choices=times, default='7')
+    tuesday = models.IntegerField("Tuesday", choices=times, default='7')
+    wednesday = models.IntegerField("Wednesday", choices=times, default='7')
+    thursday = models.IntegerField("Thursday", choices=times, default='7')
+    friday = models.IntegerField("Friday", choices=times, default='7')
+    saturday = models.IntegerField("Saturday", choices=times, default='7')
+
+    comment = models.CharField("Comment", max_length=255, default="Type here any comments")
+
+    # class Meta:
+    #     permissions = (("can_send_message", "Can send message"), ("can_reply_message", "Can reply message"))
+
+    def __str__(self):
+        return '%d' % (self.id)
+
+
+class ShiftForm(ModelForm):
+    def clean_message(self):
+        data = self.cleaned_data['hello']
+
+        #Check message is not empty
+        if not data:
+            raise ValidationError('Form cannot be empty')
+
+        return data
+
+    class Meta:
+        model = Shift
+        fields = ['worker_name','sunday','monday','tuesday','wednesday','thursday','friday','saturday','comment']
