@@ -28,6 +28,8 @@ urlpatterns = [
     url(r'^roomsmaintenance/(?P<room_number>[0-9]+)/$', views.room_maintenance_details, name='room_maintenance_details'),
     url(r'^roomsmaintenance/(?P<room_number>[0-9]+)/set_room_maintenance_status/$', views.set_room_maintenance_status, name='set_room_maintenance_status'),
 
+    url(r'^roomsummary/$', views.rooms_summary, name='rooms_summary'),
+
     url(r'^sendmessage/$', views.send_message, name='send_message'),
     url(r'^messages/$', MessageListView.as_view(), name='messages'),
 
