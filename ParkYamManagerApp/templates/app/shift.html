@@ -1,15 +1,22 @@
 {% extends "base_generic.html" %}
 {% block content %}
-<h1>Park Yam Manager Home</h1>
+<h1>Park Yam Shifts</h1>
 <p>Welcome to <em>Park Yam Manager</em></p>
 
+<form action="{% url 'app:calculate_shifts' %}" method="post">
+{% csrf_token %}
+{% for worker in workers %}
+<h3>{{worker.worker_name}}</h3>
+<table>
 
-<br />
-    <form action="" method="post">
-        {% csrf_token %}
-        <table>
-        {{ form }}
-        </table>
-        <input type="submit" value="Submit" />
-    </form>
+<tr align="center"> <td/> <td width="70"> Sunday </td> <td width="70"> Monday </td> <td width="70"> Tuesday </td> <td width="70"> Wednesday </td> <td width="70"> Thursday </td> <td width="70"> Friday </td> <td width="70"> Saturday </td> </tr>
+<tr align="center"> <td>Morning</td> <td> <input type="checkbox" checked name="{{ worker.id }}_0"> </td> <td> <input type="checkbox" checked name="{{ worker.id }}_3"> </td> <td> <input type="checkbox" checked name="{{ worker.id }}_6"> </td> <td> <input type="checkbox" checked name="{{ worker.id }}_9"> </td> <td> <input type="checkbox" checked name="{{ worker.id }}_12"> </td> <td> <input type="checkbox" checked name="{{ worker.id }}_15"> </td> <td> <input type="checkbox" checked name="{{ worker.id }}_18"> </td> </tr>
+<tr align="center"> <td>Afternoon</td> <td> <input type="checkbox" checked name="{{ worker.id }}_1"> </td> <td> <input type="checkbox" checked name="{{ worker.id }}_4"> </td> <td> <input type="checkbox" checked name="{{ worker.id }}_7"> </td> <td> <input type="checkbox" checked name="{{ worker.id }}_10"> </td> <td> <input type="checkbox" checked name="{{ worker.id }}_13"> </td> <td> <input type="checkbox" checked name="{{ worker.id }}_16"> </td> <td> <input type="checkbox" checked name="{{ worker.id }}_19"> </td> </tr>
+<tr align="center"> <td>Night</td> <td> <input type="checkbox" checked name="{{ worker.id }}_2"> </td> <td> <input type="checkbox" checked name="{{ worker.id }}_5"> </td> <td> <input type="checkbox" checked name="{{ worker.id }}_8"> </td> <td> <input type="checkbox" checked name="{{ worker.id }}_11"> </td> <td> <input type="checkbox" checked name="{{ worker.id }}_14"> </td> <td> <input type="checkbox" checked name="{{ worker.id }}_17"> </td> <td> <input type="checkbox" checked name="{{ worker.id }}_20"> </td> </tr>
+
+</table>
+{% endfor %}
+<input type="submit" value="Send" />
+</form>
+
 {% endblock %}

@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from .models import Room
 from .models import Message
 from .models import SendMessageForm
+from .models import ReceptionWorker
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -180,33 +181,69 @@ class MessageListView(generic.ListView):
 
 
 def shift(request):
-    # hello = Hello()
-    # hello.comment = "dekel :)"
-    # hello.days_type = 1
-    # hello.times_type = 3
+    workers = ReceptionWorker.objects.all()
+    return render(request,"app/shift.html", {'workers': workers})
 
-    if request.method == 'POST':
-        hello = Shift()
-        form = ShiftForm(request.POST)
-        if form.is_valid():
-            #hello.days_type = form.cleaned_data['days_type']
-            hello.worker_name= form.cleaned_data['worker_name']
-            hello.sunday = form.cleaned_data['sunday']
-            hello.monday = form.cleaned_data['monday']
-            hello.tuesday = form.cleaned_data['tuesday']
-            hello.wednesday = form.cleaned_data['wednesday']
-            hello.thursday = form.cleaned_data['thursday']
-            hello.friday = form.cleaned_data['friday']
-            hello.saturday = form.cleaned_data['saturday']
-            hello.comment = form.cleaned_data['comment']
-            hello.save()
-            return render(request, 'app/shift.html')
+def calculate_shifts(request):
+    # print request.POST
+    class Shift:
+        def __init__(self, id, next, prev, po_list):
+            self.id = id
+            self.next = next
+            self.prev = prev
+            self.po_list = po_list[:]
+
+    def solve_r(shifts, ac):  # assigned_counter
+        if len(shifts) == 0:
+            return True
+        x = [len(i.po_list) for i in shifts]
+        cur = shifts[x.index(min(x))]
+        opts = cur.po_list
+        opts.sort(key=lambda x: ac[x])
+        for opt in opts:
+            if cur.next and opt in cur.next.po_list:
+                cur.next.po_list.remove(opt)
+                was_in_next = True
+            else:
+                was_in_next = False
+
+            if cur.prev and opt in cur.prev.po_list:
+                cur.prev.po_list.remove(opt)
+                was_in_prev = True
+            else:
+                was_in_prev = False
+            shifts.remove(cur)
+            cur.worker = opt
+            ac[opt] += 1
+            if solve_r(shifts, ac):
+                return True
+            ac[opt] -= 1
+            shifts.append(cur)
+            if was_in_next:
+                cur.next.po_list.append(opt)
+            if was_in_prev:
+                cur.prev.po_list.append(opt)
+        return False
+
+    def solve(shifts, ac):
+        return solve_r(shifts[:], ac)
+
+    workers = ReceptionWorker.objects.all()
+    ac = [0] * len(workers)
+    shifts = [Shift(i, None, None, [j for j in xrange(len(workers)) if u"%d_%d"%(j,i) in request.POST]) for i in xrange(21)]
+    for i in xrange(21):
+        if i != 20:
+            shifts[i].next = shifts[i + 1]
+        if i != 0:
+            shifts[i].prev = shifts[i - 1]
+
+    if True == solve(shifts, ac):
+        sol = [None]*21
+        for s in shifts:
+            sol[s.id] = ReceptionWorker.objects.get(id=s.worker).worker_name
+        return render(request, "app/shift_assignment.html", {'sol': sol})
     else:
-        pass
-        form = ShiftForm()
-    return render(request,"app/shift.html", {'form': form})
-
-
+        return render(request, "app/shift_assignment_error.html")
 def get_schedule(request):
     shifts = Shift.objects.all()
 

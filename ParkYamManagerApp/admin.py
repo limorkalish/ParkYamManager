@@ -7,7 +7,9 @@ from django.contrib import admin
 from .models import Room
 from .models import Message
 from .models import Shift
+from .models import ReceptionWorker
 
 admin.site.register(Room)
 admin.site.register(Message)
 admin.site.register(Shift)
+admin.site.register(ReceptionWorker)
