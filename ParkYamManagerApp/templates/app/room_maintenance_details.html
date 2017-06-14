@@ -10,11 +10,10 @@
 
 <form action="{% url 'app:set_room_maintenance_status' room.number%}" method="post">
 {% csrf_token %}
-
-    <input type="radio" name="choice" id="need maintenance" value="need maintenance" />
-    <label for="need maintenance">need maintenance</label><br />
     <input type="radio" name="choice" id="does not need maintenance" value="does not need maintenance"/>
     <label for="does not need maintenance">does not need maintenance</label><br />
+    <input type="radio" name="choice" id="need maintenance" value="need maintenance" />
+    <label for="need maintenance">need maintenance</label><br />
     Comment: <input type="text" name="maintenance_comment" value="{{ room.maintenance_comment }}">
 <input type="submit" value="Send" />
 </form>
