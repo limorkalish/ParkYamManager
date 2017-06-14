@@ -21,7 +21,6 @@ urlpatterns = [
     url(r'^app/', include('ParkYamManagerApp.urls')),
     #url(r'^$', include('ParkYamManagerApp.urls')),
     url(r'^accounts/', include('django.contrib.auth.urls')),
-    url(r'^shifts/', include('shifts.urls')),
 ]
 
 admin.site.site_header = 'ParkYamManager administration'
