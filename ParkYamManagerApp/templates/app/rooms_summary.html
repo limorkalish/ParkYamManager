@@ -1,0 +1,23 @@
+{% extends "app/base_generic.html" %}
+
+{% block content %}
+<div align="center">
+    <h1>Rooms Summary</h1>
+    <table border="1" width="80%">
+        <tr>
+            <th>Room #</th>
+            <th>Maintenance Comment</th>
+            <th>Cleaning Comment</th>
+        </tr>
+    {% for room in rooms %}
+        {% if room.needs_maintenance or not room.is_clean %}
+        <tr height="70">
+            <td><div align="center"><h3>{{ room.number }}</h3></div></td>
+            <td>{{ room.maintenance_comment }}</td>
+            <td>{{ room.clean_comment }}</td>
+        </tr>
+        {% endif %}
+    {% endfor %}
+    </table>
+</div>
+{% endblock %}
