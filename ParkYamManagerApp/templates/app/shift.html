@@ -1,7 +1,7 @@
-{% extends "base_generic.html" %}
+{% extends "app/base_generic.html" %}
 {% block content %}
-<h1>Park Yam Shifts</h1>
-<p>Welcome to <em>Park Yam Manager</em></p>
+<h1>Park Yam Shifts Creation</h1>
+<p><b>Please specify the preferences of each worker:</b></p>
 
 <form action="{% url 'app:calculate_shifts' %}" method="post">
 {% csrf_token %}

@@ -181,11 +181,12 @@ class MessageListView(generic.ListView):
     def get_queryset(self):
         return Message.objects.filter(user=self.request.user).order_by('-message_time')
 
-
+@permission_required('ParkYamManagerApp.can_delete_room')
 def shift(request):
     workers = ReceptionWorker.objects.all()
     return render(request,"app/shift.html", {'workers': workers})
 
+@permission_required('ParkYamManagerApp.can_delete_room')
 def calculate_shifts(request):
     # print request.POST
     class Shift:
