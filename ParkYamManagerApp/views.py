@@ -144,7 +144,6 @@ def set_room_maintenance_status(request, room_number):
     return HttpResponseRedirect(reverse('app:rooms_maintenance'))
 
 
-
 @permission_required('ParkYamManagerApp.can_send_message')
 def send_message(request):
     # If this is a POST request then process the Form data
