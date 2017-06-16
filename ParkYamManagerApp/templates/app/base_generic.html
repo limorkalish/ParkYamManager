@@ -29,6 +29,11 @@
             <br><br>
 
             <li><img src="{% static 'images/home-icon.jpg' %}" width="25"><a href="{% url 'app:home' %}">   Home</a></li>
+            <!-- instead of defining specifc permission for admin only-->
+           {% if perms.ParkYamManagerApp.can_delete_room %}
+                <li><img src="{% static 'images/empty-calendar-icon.png' %}" width="25"><a href="{% url 'app:shifts' %}">   Create Shifts</a></li>
+            {% endif %}
+
            {% if perms.ParkYamManagerApp.view_room_status %}
                 <li><img src="{% static 'images/calendar-icon.png' %}" width="25"><a href="{% url 'app:schedule' %}">   Shifts Schedule</a></li>
                 <li><img src="{% static 'images/room-icon.png' %}" width="25"><a href="{% url 'app:reception' %}">  Rooms (Reception)</a></li>
