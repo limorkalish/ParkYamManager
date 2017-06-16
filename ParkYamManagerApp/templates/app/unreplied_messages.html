@@ -1,0 +1,30 @@
+{% extends "app/base_generic.html" %}
+{% block content %}
+    <h1>Pending Messages</h1>
+
+    {% if message_list %}
+    <style>
+    table, th, td {
+        border: 1px solid black;
+    }
+    th, td {
+        padding: 10px;
+        text-align: left;
+    }
+    </style>
+    <table border="1">
+    <tr><th>Reply link</th><th>User</th><th>Sent Time</th><th>Message</th></tr>
+      {% for message in message_list %}
+          <tr>
+              <td><a href="{% url 'app:reply' message.id %}">Reply</a></td>
+              <td>{{ message.user }}</td>
+              <td>{{ message.message_time }}</td>
+              <td>{{ message.message }}</td>
+          </tr>
+      {% endfor %}
+
+    </table>
+    {% else %}
+      <p>You have no messages.</p>
+    {% endif %}
+{% endblock %}

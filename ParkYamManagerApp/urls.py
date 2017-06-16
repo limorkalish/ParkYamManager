@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 import views
 from views import MessageListView
+from views import UnrepliedMessageListView
 
 app_name = 'app'
 urlpatterns = [
@@ -32,6 +33,8 @@ urlpatterns = [
 
     url(r'^sendmessage/$', views.send_message, name='send_message'),
     url(r'^messages/$', MessageListView.as_view(), name='messages'),
+    url(r'^pending_messages/$', UnrepliedMessageListView.as_view(), name='pending_messages'),
+    url(r'^reply/(?P<message_id>[0-9]+)/$', views.reply_message, name='reply'),
 
     url(r'^reception/$', views.reception, name = 'reception'),
 	url(r'^reception/(?P<room_number>[0-9]+)/$', views.room_reception_details, name='room_reception_details'),

@@ -46,8 +46,12 @@
             {% endif %}
                 <li><img src="{% static 'images/summary-icon.jpg' %}" width="25"><a href="{% url 'app:rooms_summary' %}">   Rooms Summary</a></li>
             {% if perms.ParkYamManagerApp.can_send_message %}
-                <li><img src="{% static 'images/messages-icon.jpg' %}" width="25"><a href="{% url 'app:messages' %}">   Messages List</a></li>
-                <li><img src="{% static 'images/sent-icon.jpg' %}" width="25"><a href="{% url 'app:send_message' %}">   Send Message</a></li>
+                {% if perms.ParkYamManagerApp.can_delete_room %}
+                    <li><img src="{% static 'images/reply-icon.png' %}" width="25"><a href="{% url 'app:pending_messages' %}">   Pending Messages</a></li>
+                {% else %}
+                    <li><img src="{% static 'images/messages-icon.jpg' %}" width="25"><a href="{% url 'app:messages' %}">   Messages List</a></li>
+                    <li><img src="{% static 'images/sent-icon.jpg' %}" width="25"><a href="{% url 'app:send_message' %}">   Send Message</a></li>
+                {% endif %}
             {% endif %}
 
 

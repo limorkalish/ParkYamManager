@@ -68,6 +68,21 @@ class SendMessageForm(ModelForm):
         fields = ['message']
         #help_texts = {'message': ('Enter a message'), }
 
+class ReplyMessageForm(ModelForm):
+    def clean_message(self):
+        data = self.cleaned_data['message']
+
+        #Check message is not empty
+        if not data:
+            raise ValidationError('Message cannot be empty')
+
+        return data
+
+    class Meta:
+        model = Message
+        fields = ['message', 'user', 'reply', 'replier_name']
+        #help_texts = {'message': ('Enter a message'), }
+
 times = [
     (0, 'OFF_Morning'),
     (1, 'OFF_Afternoon'),

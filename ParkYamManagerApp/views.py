@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from .models import Room
 from .models import Message
 from .models import SendMessageForm
+from .models import ReplyMessageForm
 from .models import ReceptionWorker
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect
@@ -181,6 +182,17 @@ class MessageListView(generic.ListView):
     def get_queryset(self):
         return Message.objects.filter(user=self.request.user).order_by('-message_time')
 
+class UnrepliedMessageListView(generic.ListView):
+    model = Message
+    template_name = 'app/unreplied_messages.html'
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(UnrepliedMessageListView, self).dispatch(*args, **kwargs)
+
+    def get_queryset(self):
+        return Message.objects.filter(reply__exact='').order_by('-message_time')
+
 @permission_required('ParkYamManagerApp.can_delete_room')
 def shift(request):
     workers = ReceptionWorker.objects.all()
@@ -313,4 +325,11 @@ def current_shift(request):
 
     return render(request, "app/shift_assignment.html", {'sol': sol})
 
-
+@permission_required('ParkYamManagerApp.can_delete_room')
+def reply_message(request, message_id):
+    instance = get_object_or_404(Message, id=message_id)
+    form = ReplyMessageForm(request.POST or None, instance=instance)
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect(reverse('app:pending_messages'))
+    return render(request, "app/send_message.html", {'form': form})
