@@ -33,7 +33,7 @@ urlpatterns = [
     url(r'^sendmessage/$', views.send_message, name='send_message'),
     url(r'^messages/$', MessageListView.as_view(), name='messages'),
 
-    url(r'^reception/$', views.reception),
+    url(r'^reception/$', views.reception, name = 'reception'),
 	url(r'^reception/(?P<room_number>[0-9]+)/$', views.room_reception_details, name='room_reception_details'),
     url(r'^shifts/$', views.shift, name='shifts'),
     url(r'^shifts/calculate_shifts$', views.calculate_shifts, name="calculate_shifts"),

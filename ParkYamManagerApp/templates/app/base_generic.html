@@ -29,7 +29,9 @@
             <br><br>
 
             <li><img src="{% static 'images/home-icon.jpg' %}" width="25"><a href="{% url 'app:home' %}">Home</a></li>
-
+           {% if perms.ParkYamManagerApp.view_room_status %}
+                <li><img src="{% static 'images/room-icon.png' %}" width="25"><a href="{% url 'app:reception' %}">Rooms (Reception)</a></li>
+            {% endif %}
             {% if perms.ParkYamManagerApp.change_room %}
                 <li><img src="{% static 'images/broom-icon.jpg' %}" width="25"><a href="{% url 'app:rooms_cleaning' %}">Rooms Cleaning</a></li>
             {% endif %}

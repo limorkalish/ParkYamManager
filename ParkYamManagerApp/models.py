@@ -36,6 +36,8 @@ class Room(models.Model):
     class Meta:
         permissions = (
             ("maintain_room", "Can maintain room"),
+            ("clean_room", "Can clean room"),
+            ("view_room_status", "Can view room status"),
         )
 
 class Message(models.Model):

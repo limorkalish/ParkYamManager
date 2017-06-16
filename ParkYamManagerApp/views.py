@@ -46,12 +46,13 @@ def get_rooms_by_floor(request):
             rooms_by_floor[room.floor - 1].append(room)
     return rooms_by_floor
 
+@permission_required('ParkYamManagerApp.clean_room')
 def rooms_summary(request):
     rooms = Room.objects.all()
     context = {'rooms': rooms}
     return render(request, 'app/rooms_summary.html', context)
 
-@permission_required('ParkYamManagerApp.change_room')
+@permission_required('ParkYamManagerApp.clean_room')
 def rooms_cleaning(request):
     rooms_by_floor = get_rooms_by_floor(request)
     number_of_floors = len(get_rooms_floors())
@@ -65,7 +66,7 @@ def rooms_maintenance(request):
     context = {'rooms_by_floor': rooms_by_floor, 'number_of_floors': xrange(1, number_of_floors+1)}
     return render(request, 'app/rooms_maintenance.html', context)
 
-
+@permission_required('ParkYamManagerApp.view_room_status')
 def reception(request):
     rooms = Room.objects.all()
     rooms_by_floor = [[] for i in xrange(6)]
