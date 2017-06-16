@@ -115,6 +115,10 @@ class ReceptionWorker(models.Model):
     id = models.IntegerField("id", primary_key=True)
     worker_name = models.CharField("Name", max_length=255, default="worker name")
 
+class ShiftAssignment(models.Model):
+    id = models.IntegerField("id", primary_key=True)
+    worker_name = models.CharField("Name", max_length=255, default="worker name")
+
 
 class ShiftForm(ModelForm):
     def clean_message(self):

@@ -13,6 +13,7 @@ from django.contrib.auth.decorators import permission_required
 from django.views import generic
 from django.utils.decorators import method_decorator
 from .models import Shift
+from .models import ShiftAssignment
 from .models import ShiftForm
 # Create your views here.
 
@@ -239,9 +240,16 @@ def calculate_shifts(request):
             shifts[i].prev = shifts[i - 1]
 
     if True == solve(shifts, ac):
+        #Delete previous result
+        ShiftAssignment.objects.all().delete()
+
         sol = [None]*21
         for s in shifts:
             sol[s.id] = ReceptionWorker.objects.get(id=s.worker).worker_name
+            shift_assignment = ShiftAssignment()
+            shift_assignment.id = s.id
+            shift_assignment.worker_name = sol[s.id]
+            shift_assignment.save()
         return render(request, "app/shift_assignment.html", {'sol': sol})
     else:
         return render(request, "app/shift_assignment_error.html")
@@ -295,4 +303,13 @@ def get_schedule(request):
                 results[shift][7].add(item.worker_name)
 
     return render(request, "app/schedule.html", {'results': results})
+
+@permission_required('ParkYamManagerApp.view_room_status')
+def current_shift(request):
+    sol = [None] * 21
+    for s in ShiftAssignment.objects.all():
+        sol[s.id] = s.worker_name
+
+    return render(request, "app/shift_assignment.html", {'sol': sol})
+
 

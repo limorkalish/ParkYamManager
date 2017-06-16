@@ -37,5 +37,5 @@ urlpatterns = [
 	url(r'^reception/(?P<room_number>[0-9]+)/$', views.room_reception_details, name='room_reception_details'),
     url(r'^shifts/$', views.shift, name='shifts'),
     url(r'^shifts/calculate_shifts$', views.calculate_shifts, name="calculate_shifts"),
-    url(r'^schedule/$', views.get_schedule, name='schedule'),
+    url(r'^schedule/$', views.current_shift, name='schedule'),
 ]
