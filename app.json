@@ -1,0 +1,8 @@
+{
+  "name": "ParkYamManager",
+  "description": "",
+  "image": "heroku/python",
+  "repository": "https://github.com/limorkalish/ParkYamManager",
+  "keywords": ["python", "django" ],
+  "addons": [ ]
+}
