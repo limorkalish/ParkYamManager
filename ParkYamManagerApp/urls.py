@@ -17,6 +17,7 @@ from django.conf.urls import url
 import views
 from views import MessageListView
 from views import UnrepliedMessageListView
+from django.views.generic import TemplateView
 
 app_name = 'app'
 urlpatterns = [
@@ -41,4 +42,7 @@ urlpatterns = [
     url(r'^shifts/$', views.shift, name='shifts'),
     url(r'^shifts/calculate_shifts$', views.calculate_shifts, name="calculate_shifts"),
     url(r'^schedule/$', views.current_shift, name='schedule'),
+
+    url(r'^staff', TemplateView.as_view(template_name='C:/Users/koral/PycharmProjects/ParkYamManager/ParkYamManagerApp/templates/app/staff.html'),name='staff'),
+
 ]

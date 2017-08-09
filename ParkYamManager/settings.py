@@ -25,7 +25,7 @@ SECRET_KEY = ')=gt6m@@gnj2@7^&yz1qh7iit($^-movhnxvgdmk5nbxo&y#ih'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['calm-river-86349.herokuapp.com', 'localhost']
+ALLOWED_HOSTS = ['calm-river-86349.herokuapp.com', 'localhost','127.0.0.1']
 
 
 # Application definition
