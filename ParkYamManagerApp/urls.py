@@ -43,6 +43,6 @@ urlpatterns = [
     url(r'^shifts/calculate_shifts$', views.calculate_shifts, name="calculate_shifts"),
     url(r'^schedule/$', views.current_shift, name='schedule'),
 
-    url(r'^staff', TemplateView.as_view(template_name=r'app\staff.html'),name='staff'),
+    url(r'^staff', TemplateView.as_view(template_name=r'app/staff.html'),name='staff'),
 
 ]
